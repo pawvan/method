@@ -15,8 +15,9 @@
  *10. For more details, please contact: [pawanpediredla@gmail.com]
  */
 const express = require('express')
-const router  = express.Router();
-const {registerUser,loginUser} =require('../controllers/userControllers');
-router.post('/register',registerUser)
-router.post('/login',loginUser)
+const router = express.Router()
+const {createTeam,addMember} =require('../controllers/teamController')
+const authMiddleware =require('../middlewares/authMiddleware')
+router.post('/',authMiddleware,createTeam)
+router.post('/add-member',authMiddleware,addMember)
 module.exports=router;
