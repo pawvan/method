@@ -14,31 +14,49 @@
  * 9. You may not use this code in any harmful or malicious way.
  *10. For more details, please contact: [pawanpediredla@gmail.com]
  */
-const User = require('../models/User')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken');
-exports.registerUser  = async (req,res)=>{
-    const {username,email,password} = req.body;
-    try{
-        const user  = new User({
-            username,email,password
-        })
-        const salt = await bcrypt.genSalt(10);
-        user.password=await bcrypt.hash(password,salt);
- //save to database 
- await user.save();
- const token=jwt.sign({
-    id:user._id
- },process.env.JWT_SECRET,{expiresIn:'1h'})
+ const User = require('../models/User');
+ const bcrypt = require('bcryptjs');
+ const generateToken = require('../config/auth');
+ 
+ exports.registerUser = async (req, res) => {
+   const { username, email, password } = req.body;
+ 
+   try {
+     const existingUser = await User.findOne({ email });
+     if (existingUser) {
+       return res.status(400).json({ message: 'User already exists' });
+     }
+ 
+     const user = new User({ username, email, password });
+ 
+     const salt = await bcrypt.genSalt(10);
+     user.password = await bcrypt.hash(password, salt);
+ 
+     await user.save();
+ 
+     const token = generateToken(user._id);
+ 
+     res.status(201).json({ token });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ message: 'Server error' });
+   }
+ };
 
- res,status(201).json({
-    token
- })
-}
-catch(error){
-    console.error(error);
-    res.status(500).json({
-        message:"error registering user"
-    })    
-    }
-}
+ exports.loginUser = async (req, res) => {
+   const { email, password } = req.body;
+ 
+   try {
+     const user = await User.findOne({ email });
+     if (!user) return res.status(400).json({ message: 'User not found' });
+ 
+     
+     const isMatch = await bcrypt.compare(password, user.password);     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+     const token = generateToken(user._id);
+     res.json({ token });
+   } catch (error) {
+     console.error(error);
+     res.status(500).json({ message: 'Server error' });
+   }
+ };
+ 
