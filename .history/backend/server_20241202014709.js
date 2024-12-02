@@ -2,7 +2,7 @@
  * This code is belongs to Pawvan
  * 
  * 
- * * Rules:
+ * Rules:
  * 1. You can use, modify, and distribute this code freely for non-commercial purposes.
  * 2. Attribution must be provided in any derived works.
  * 3. You may not use this code in any project that violates any laws.
@@ -31,7 +31,7 @@ app.use(express.json());
 app.use('/api/users',userRoutes);
 app.use('/api/tasks',taskRoutes);
 app.use('api/teams',teamRoutes);
-app.use('api/messages',messageRoutes);
+app.use('api/messages')
 const port = process.env.PORT ||3000;
 app.listen(port,()=>{
     console.log(`server running on port ${port}`)

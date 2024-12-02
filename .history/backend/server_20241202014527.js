@@ -2,7 +2,7 @@
  * This code is belongs to Pawvan
  * 
  * 
- * * Rules:
+ * Rules:
  * 1. You can use, modify, and distribute this code freely for non-commercial purposes.
  * 2. Attribution must be provided in any derived works.
  * 3. You may not use this code in any project that violates any laws.
@@ -18,9 +18,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB=require('./config/db')
-const teamRoutes = require('.routes/teamRoutes')
-const taskRoutes = require('./routes/taskRoutes')
-const messageRoutes = require('./routes/messageRoutes')
+const 
 const userRoutes  = require('./routes/UserRoutes')
 dotenv.config();
 connectDB();
@@ -29,9 +27,6 @@ const app =express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/users',userRoutes);
-app.use('/api/tasks',taskRoutes);
-app.use('api/teams',teamRoutes);
-app.use('api/messages',messageRoutes);
 const port = process.env.PORT ||3000;
 app.listen(port,()=>{
     console.log(`server running on port ${port}`)

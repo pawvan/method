@@ -2,7 +2,7 @@
  * This code is belongs to Pawvan
  * 
  * 
- * * Rules:
+ * Rules:
  * 1. You can use, modify, and distribute this code freely for non-commercial purposes.
  * 2. Attribution must be provided in any derived works.
  * 3. You may not use this code in any project that violates any laws.
