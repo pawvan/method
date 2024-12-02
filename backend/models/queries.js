@@ -14,24 +14,18 @@
  * 9. You may not use this code in any harmful or malicious way.
  *10. For more details, please contact: [pawanpediredla@gmail.com]
  */
- const Message = require('../models/Message');
- const Team = require('../models/Team');
- exports.sendMessage = async (req, res) => {
-   const { content, teamId } = req.body;
-   const senderId = req.user.userId; 
-   try {
-     const team = await Team.findById(teamId);
-     if (!team) return res.status(404).json({ message: 'Team not found' });
-     const message = new Message({
-       sender: senderId,
-       content,
-       team: teamId,
-     });
- 
-     await message.save();
-     res.status(201).json(message);
-   } catch (error) {
-     console.error(error);
-     res.status(500).json({ message: 'Server error' });
-   }
- };
+const mongoose= require('mongoose')
+const QueriSchema = new mongoose.Schema(
+    {
+        user:{
+            email:String,
+            aboutTheProblemHeFaced:String,
+            method:{
+
+            },
+            require:true
+        }
+
+    }
+)
+module.exports= mongoose.Model('Queri',QueriSchema);
